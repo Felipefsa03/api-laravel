@@ -9,6 +9,13 @@ use Illuminate\Notifications\Notifiable;
 class Invoice extends Model
 {
     use HasFactory, Notifiable;
+    protected $fillable = [
+        'user_id',
+        'type',
+        'paid',
+        'payment_date',
+        'value'
+    ];
 
     protected function casts(): array
     {

@@ -1,0 +1,31 @@
+<?php
+
+namespace App;
+
+use Illuminate\Contracts\Support\MessageBag as SupportMessageBag;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\MessageBag;
+
+trait HttpResponse
+{
+    // A função response é para tratamento de status Ok
+    // Ja o error é para erro
+    public function response(string $message, string|int $status,  array|Model|JsonResource $data = []){
+        return response()->json([
+            'message' => $message,
+            'status' => $status,
+            'data' => $data
+        ],$status);
+    }
+
+    public function error( string $message, string|int $status, array|MessageBag $errors = [],  array $data = []){
+        return response()->json([
+            'message' => $message,
+            'status' => $status,
+            'error' => $errors,
+            'data' => $data
+        ],$status);
+    }
+
+}
