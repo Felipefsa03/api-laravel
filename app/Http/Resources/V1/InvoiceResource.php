@@ -10,8 +10,11 @@ class InvoiceResource extends JsonResource
 {
     private array $types = [
         'C' => 'Cartão',
+        'c' => 'Cartão',
         'B' => 'Boleto',
-        'P' => 'Pix'
+        'b' => 'Boleto',
+        'P' => 'Pix',
+        'p' => 'Pix'
     ];
     public function toArray(Request $request): array
     {

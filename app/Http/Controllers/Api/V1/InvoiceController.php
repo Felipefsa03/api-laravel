@@ -64,9 +64,10 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Invoice $invoice)
     {
-        //
+        return new InvoiceResource($invoice);
+
     }
 
    
@@ -76,14 +77,55 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'type' => 'required|max:1|in:'.implode(',', ['B','C','P','b','c','p']),
+            'paid' => 'required|numeric|between:0,1',
+            'value' => 'required|numeric',
+            'payment_date' => 'nullable|date_format:Y-m-d H:i:s'    
+        ]);
+
+
+
+        if($validator->fails()){
+            return $this->error('validation failed', 422, $validator->errors());
+        }
+
+        $validated = $validator->validated();
+
+        
+        $invoice = Invoice::findOrFail($id); 
+
+        
+        $updated = $invoice->update([
+            'user_id'      => $validated['user_id'],
+            'type'         => $validated['type'],
+            'paid'         => $validated['paid'],
+            'value'        => $validated['value'],
+            'payment_date' => $validated['paid'] ? $validated['payment_date'] : null
+        ]);
+
+        if ($updated) {
+            return $this->response('invoice updated', 200, new InvoiceResource($invoice->load('user')));
+        } else {
+            // 3. Added the missing HTTP status code (400) here
+            return $this->error('invoice not updated', 400); 
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Invoice $invoice)
     {
-        //
+        $deleted = $invoice->delete();
+
+        if($deleted){
+            return $this->response('Invoice deleted', 200);
+        }
+        return $this->response('Invoice not deleted', 400);
+
+
     }
 }
