@@ -10,17 +10,22 @@ use App\Http\Resources\V1\InvoiceResource;
 use App\HttpResponse;
 use Illuminate\Support\Facades\Validator;
 
+
 class InvoiceController extends Controller
 {
     use HttpResponse;
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return InvoiceResource::collection(Invoice::with('user')->get());
-        // return InvoiceResource::collection(Invoice::with('user')->paginate());
-    }
+    public function index(Request $request)
+  {
+    // return InvoiceResource::collection(Invoice::where([
+    //   ['value', '>', 5000],
+    //   ['paid', '=', 1]
+    // ])->with('user')->get());
+    // return InvoiceResource::collection(Invoice::with('user')->get());
+    return (new Invoice())->filter($request);
+  }
 
    
      
