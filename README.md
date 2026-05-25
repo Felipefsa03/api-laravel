@@ -7,6 +7,110 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+# Invoices API
+
+## Requisitos / Requirements
+
+- PHP ^8.3
+- Composer
+- Node.js & npm
+- SQLite (padrão) ou PostgreSQL
+
+## Instalação / Setup
+
+```bash
+# Clone o repositório
+git clone <repo-url>
+cd api-laravel
+
+# Instalar dependências PHP
+composer install
+
+# Configurar .env
+cp .env.example .env
+# Edite .env com suas configurações de banco de dados
+
+# Gerar chave da aplicação
+php artisan key:generate
+
+# Rodar migrations e seeders
+php artisan migrate --seed
+
+# Instalar dependências frontend
+npm install
+npm run build
+```
+
+Ou use o comando de setup automático:
+
+```bash
+composer setup
+```
+
+## Executar / Run
+
+```bash
+# Desenvolvimento (servidor + queue + logs + vite)
+composer dev
+
+# Ou apenas o servidor
+php artisan serve
+```
+
+## Testes / Tests
+
+```bash
+composer test
+```
+
+## Rotas da API / API Routes
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| GET | `/api/v1/users` | Listar usuários |
+| GET | `/api/v1/users/{user}` | Detalhe do usuário |
+| GET | `/api/v1/invoices` | Listar faturas |
+| POST | `/api/v1/invoices` | Criar fatura |
+| GET | `/api/v1/invoices/{invoice}` | Detalhe da fatura |
+| PUT | `/api/v1/invoices/{invoice}` | Atualizar fatura |
+| DELETE | `/api/v1/invoices/{invoice}` | Deletar fatura |
+| POST | `/api/v1/login` | Login |
+
+## Endpoints
+
+---
+
+**Português**
+
+### Faturas - Filtros
+
+A rota `GET /api/v1/invoices` aceita filtros por query string:
+
+```
+GET /api/v1/invoices?paid[eq]=1&value[gt]=5000
+```
+
+**Operadores disponíveis:** `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`
+
+**Campos filtráveis:** `value`, `type`, `paid`, `payment_date`
+
+---
+
+**English**
+
+### Invoices - Filters
+
+The `GET /api/v1/invoices` endpoint accepts query string filters:
+
+```
+GET /api/v1/invoices?paid[eq]=1&value[gt]=5000
+```
+
+**Available operators:** `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`
+
+**Filterable fields:** `value`, `type`, `paid`, `payment_date`
+
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
